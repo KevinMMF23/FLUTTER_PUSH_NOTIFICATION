@@ -4,7 +4,9 @@ import 'package:flutter_push_notification_2024_1/config/router/app_router.dart/a
 import 'package:flutter_push_notification_2024_1/config/theme/app_theme.dart';
 import 'package:flutter_push_notification_2024_1/presentarion/notifications/notifications_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationsBloc.initializeFCM();
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
