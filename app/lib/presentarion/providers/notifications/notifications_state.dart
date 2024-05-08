@@ -1,6 +1,6 @@
 part of 'notifications_bloc.dart';
 
- class NotificationsState extends Equatable {
+class NotificationsState extends Equatable {
   final AuthorizationStatus status;
   final List<dynamic> notifications;
   const NotificationsState(
@@ -15,5 +15,3 @@ part of 'notifications_bloc.dart';
   @override
   List<Object> get props => [status, notifications];
 }
-
-
