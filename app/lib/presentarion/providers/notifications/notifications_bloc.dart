@@ -25,12 +25,20 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   void _notificationsStatusChanged(
       NotificationStatusChanged event, Emitter<NotificationsState> emit) {
     emit(state.copywith(status: event.status));
+    _getFCMToken();
   }
 
   void _checkPermissionsFCM() async{
     final settings = await messaging.getNotificationSettings();
     add(NotificationStatusChanged(settings.authorizationStatus));
 
+  }
+  
+  void _getFCMToken()async{
+    final settings = await messaging.getNotificationSettings();
+    if(settings.authorizationStatus != AuthorizationStatus.authorized)return;
+    final token =await messaging.getToken();
+    print(token);
   }
 
   void requestPermission() async {
