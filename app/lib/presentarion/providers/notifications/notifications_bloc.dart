@@ -12,7 +12,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
   NotificationsBloc() : super(const NotificationsState()) {
     on<NotificationStatusChanged>(_notificationsStatusChanged);
-    _checkPermissionsFCM();
+    _checkPermissionsFCM();//
   }
 
   static Future<void> initializeFCM() async {
