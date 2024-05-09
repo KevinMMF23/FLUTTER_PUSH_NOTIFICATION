@@ -12,12 +12,14 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
   NotificationsBloc() : super(const NotificationsState()) {
     on<NotificationStatusChanged>(_notificationsStatusChanged);
+    _checkPermissionsFCM();
   }
 
   static Future<void> initializeFCM() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    
   }
 
   void _notificationsStatusChanged(
@@ -25,7 +27,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     emit(state.copywith(status: event.status));
   }
 
-  void _checkPermitionsFCM() async{
+  void _checkPermissionsFCM() async{
     final settings = await messaging.getNotificationSettings();
     add(NotificationStatusChanged(settings.authorizationStatus));
 
