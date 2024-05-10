@@ -2,7 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_push_notification_2024_1/firebase_options.dart';
+
+import '../../../firebase_options.dart';
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';
