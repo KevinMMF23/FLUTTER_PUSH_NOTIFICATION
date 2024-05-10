@@ -1,4 +1,4 @@
-name: app
+name: flutter_push_notification_2024_1
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
@@ -7,9 +7,13 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
-  firebase_core: ^2.30.1
+  equatable: ^2.0.5
+  firebase_core: ^2.30.0
+  firebase_messaging: ^14.8.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.5
+  go_router: ^13.2.4
 
 dev_dependencies:
   flutter_test:
