@@ -1,12 +1,24 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
-import '../../../firebase_options.dart';
+import 'package:flutter_push_notification_2024_1/domain/entities/push_message.dart';
+import 'package:flutter_push_notification_2024_1/firebase_options.dart';
 
 part 'notifications_event.dart';
 part 'notifications_state.dart';
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  print("Handling a background message: ${message.messageId}");
+}
 
 class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -33,12 +45,27 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   }
 
   void _handleRemoteMessage(RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
-
-    if (message.notification != null) return;
-    print('Message also contained a notification: ${message.notification}');
+    if (message.notification == null) return;
+    final notification = mapperRemoteMessageToEntity(message);
+    print(notification.toString());
   }
+
+  PushMessage mapperRemoteMessageToEntity(RemoteMessage message) {
+    return PushMessage(
+        messageId: _getMessageId(message),
+        title: message.notification!.title ?? '',
+        body: message.notification!.body ?? '',
+        sentDate: message.sentTime ?? DateTime.now(),
+        data: message.data,
+        imageUrl: _getImageUrl(message.notification!));
+  }
+
+  String _getMessageId(RemoteMessage message) =>
+      message.messageId?.replaceAll(':', '').replaceAll('%', '') ?? '';
+
+  String? _getImageUrl(RemoteNotification notification) => Platform.isAndroid
+      ? notification.android?.imageUrl
+      : notification.apple?.imageUrl;
 
   void _onForegroundMessage() {
     FirebaseMessaging.onMessage.listen(_handleRemoteMessage);
