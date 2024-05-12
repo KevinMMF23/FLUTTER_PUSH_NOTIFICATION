@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(//
         title: context
             .select((NotificationsBloc bloc) => Text('${bloc.state.status}')),
         actions: [
