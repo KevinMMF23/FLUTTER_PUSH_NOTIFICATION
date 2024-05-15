@@ -13,4 +13,5 @@ class NotificationReceived extends NotificationsEvent {
   final PushMessage message;
 
   NotificationReceived(this.message);
+  
 }
